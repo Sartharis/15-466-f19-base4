@@ -157,8 +157,8 @@ if $(OS) = NT { #Windows
 #Store the names of all the .cpp files to build into a variable:
 GAME_NAMES =
 	collide
-	RollLevel
-	RollMode
+	FlyLevel
+	FlyMode
 	Sound
 	load_wav
 	load_opus

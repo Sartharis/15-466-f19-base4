@@ -2,7 +2,7 @@
 #include "Mode.hpp"
 
 //Starting mode:
-#include "RollMode.hpp"
+#include "FlyMode.hpp"
 
 //Deal with calling resource loading functions:
 #include "Load.hpp"
@@ -53,9 +53,9 @@ int main(int argc, char **argv) {
 
 	//create window:
 	SDL_Window *window = SDL_CreateWindow(
-		"gp19 Sphere Roller", //TODO: remember to set a title for your game!
+		"gp19 Sphere Flier", //TODO: remember to set a title for your game!
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-		800, 540, //TODO: modify window size if you'd like
+		1600, 900, //TODO: modify window size if you'd like
 		SDL_WINDOW_OPENGL
 		| SDL_WINDOW_RESIZABLE //uncomment to allow resizing
 		| SDL_WINDOW_ALLOW_HIGHDPI //uncomment for full resolution on high-DPI screens
@@ -95,6 +95,14 @@ int main(int argc, char **argv) {
 	//Hide mouse cursor (note: showing can be useful for debugging):
 	//SDL_ShowCursor(SDL_DISABLE);
 
+	SDL_SetRelativeMouseMode( SDL_TRUE );
+
+	//SDL_Cursor *cursor; /* Make this variable visible in the point
+						//where you exit the program */
+	//int32_t cursorData[2] = { 0, 0 };
+	//cursor = SDL_CreateCursor( (Uint8 *)cursorData, (Uint8 *)cursorData, 8, 8, 4, 4 );
+	//SDL_SetCursor( cursor );
+
 	//------------ load resources --------------
 	call_load_functions();
 
@@ -102,16 +110,16 @@ int main(int argc, char **argv) {
 	if (argc > 1) {
 		int32_t level = -1;
 		if (argc >= 2) level = std::stoi(argv[1]);
-		if (argc != 2 || level < 0 || level >= int32_t(roll_levels->size())) {
+		if (argc != 2 || level < 0 || level >= int32_t(fly_levels->size())) {
 			std::cerr << "Usage:\n\t" << argv[0] << " [level number]" << std::endl;
 		}
-		auto level_iter = roll_levels->begin();
+		auto level_iter = fly_levels->begin();
 		for (int32_t i = 0; i < level; ++i) {
 			++level_iter;
 		}
-		Mode::set_current(std::make_shared< RollMode >(*level_iter));
+		Mode::set_current(std::make_shared< FlyMode >(*level_iter));
 	} else {
-		Mode::set_current(std::make_shared< RollMode >(roll_levels->front()));
+		Mode::set_current(std::make_shared< FlyMode >(fly_levels->front()));
 	}
 
 	//------------ main loop ------------
@@ -146,7 +154,7 @@ int main(int argc, char **argv) {
 				//handle input:
 				if (Mode::current && Mode::current->handle_event(evt, window_size)) {
 					// mode handled it; great
-				} else if (evt.type == SDL_QUIT) {
+				} else if (evt.type == SDL_QUIT || ( evt.type == SDL_KEYDOWN && evt.key.keysym.sym == SDLK_ESCAPE )) {
 					Mode::set_current(nullptr);
 					break;
 				} else if (evt.type == SDL_KEYDOWN && evt.key.keysym.sym == SDLK_PRINTSCREEN) {
@@ -195,6 +203,8 @@ int main(int argc, char **argv) {
 	//------------  teardown ------------
 
 	Sound::shutdown();
+
+	//SDL_FreeCursor( cursor );
 
 	SDL_GL_DeleteContext(context);
 	context = 0;

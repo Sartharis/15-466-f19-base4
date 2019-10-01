@@ -93,7 +93,7 @@ bool collide_ray_vs_cylinder(glm::vec3 ray_start, glm::vec3 ray_direction,
 	if(dot_from<0.0f)
 	{
 		if(dot_to<=dot_from) return false;
-		t0 = (0.0-dot_from)/(dot_to-dot_from);
+		t0 = (0.0f-dot_from)/(dot_to-dot_from);
 	}
 	if(dot_from>limit)
 	{
