@@ -1,8 +1,8 @@
-# (TODO: your game's title)
+# Sphere Flier
 
-Author: (TODO: your name)
+Author: Jan Orlowski
 
-Design: (TODO: In two sentences or fewer, describe what is new and interesting about your game.)
+Design: Fly through all the loops as fast as possible!
 
 Screen Shot:
 
@@ -10,10 +10,10 @@ Screen Shot:
 
 How To Play:
 
-(TODO: describe the controls and (if needed) goals/strategy.)
+Mouse to angle camera. Left click to speed up (note: movement limited when speeding up, slow down to turn). Esc to quit.
 
 Sources:
 
-(TODO: fill in information about the sources of any **artwork** or **sounds** you used in the game that you did not create yourself. Feel free to also credit yourself for things you did make.)
+I made all of the 3D models by extending the example game4 blender file. Text font used is the trade font by Jim McCann.
 
 This game was built with [NEST](NEST.md).
